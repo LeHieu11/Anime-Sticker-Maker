@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Anime_Stiker.Utilty;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -51,12 +52,15 @@ public partial class MainWindow : Window
     private void InitCanvasTextHolderCurved()
     {
         var text = TBoxText.Text;
-        var parentCenter = new Point(CanvasTextHolderCurved.ActualWidth / 2, CanvasTextHolderCurved.ActualHeight / 2);
-        var radius = (CanvasTextHolderCurved.ActualHeight / 2) * (SliderY.Value / 100);
         var n = text.Length;
-        var offset = Math.PI * 1/4;
-        var startAngle = Math.PI - offset;
-        var endAngle = 0 + offset;
+        var parentCenter = new Point(CanvasTextHolderCurved.ActualWidth / 2, CanvasTextHolderCurved.ActualHeight / 2);
+        var parentRadius = (CanvasTextHolderCurved.ActualHeight / 2) * (SliderY.Value / 100);
+        var topMostPoint = new Point(parentCenter.X, parentCenter.Y - parentRadius);
+
+        // For the circle that gonna render text on
+        var padding = Math.PI * 1 / (n);
+        var startAngle = Math.PI - padding;
+        var endAngle = 0 + padding;
         var totalAngle = Math.Abs(startAngle - endAngle);
         var angleStep = totalAngle / (n - 1);
 
@@ -81,12 +85,22 @@ public partial class MainWindow : Window
 
             // Calculate character position on circle
             double angle = startAngle - (i * angleStep);
-            double x = parentCenter.X + radius * Math.Cos(angle) - textBlock.ActualWidth / 2;
-            double y = parentCenter.Y - radius * Math.Sin(angle) - textBlock.ActualHeight / 2;
+            double x = parentCenter.X + parentRadius * Math.Cos(angle) - textBlock.ActualWidth / 2;
+            double y = parentCenter.Y - parentRadius * Math.Sin(angle) - textBlock.ActualHeight / 2;
+            var characterPoint = new Point(x, y);
 
             // Set character canvas position
             Canvas.SetLeft(charCanvas, x);
             Canvas.SetTop(charCanvas, y);
+
+            // Rotate character canvas into parent canvas center
+            RotateTransform rotateTransform = new()
+            {
+                CenterX = textBlock.ActualWidth / 2,
+                CenterY = textBlock.ActualHeight / 2,
+                Angle = GeometryHelper.CalculateAngle(characterPoint, parentCenter, topMostPoint)
+            };
+            charCanvas.RenderTransform = rotateTransform;
         }
     }
 
