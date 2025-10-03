@@ -27,14 +27,42 @@ public partial class MainWindow : Window
 
     private void InitCanvasTextHolderStraight()
     {
+        var textList = TBoxText.Text.Split('\n');
         var center = new Point(CanvasTextHolderStaight.ActualWidth / 2, CanvasTextHolderStaight.ActualHeight / 2);
         var x = CanvasTextHolderStaight.ActualWidth * SliderX.Value / 100;
         var y = CanvasTextHolderStaight.ActualHeight - (CanvasTextHolderStaight.ActualHeight * SliderY.Value / 100);
 
+        for(int i = 0; i < textList.Length; i++) 
+        {
+            var text = textList[i];
+
+            // Create and add textBlock into CanvasTextHolder
+            var textBlock = CreateStraighTextBlock(text);
+            CanvasTextHolderStaight.Children.Add(textBlock);
+            CanvasTextHolderStaight.UpdateLayout();
+
+            // Set coridanate
+            var space = SliderSpace.Value;
+            Canvas.SetLeft(textBlock, x - textBlock.ActualWidth / 2);
+            Canvas.SetTop(textBlock, y - (textBlock.ActualHeight / 2) + (space * i));
+        }
+
+        // Rotate CanvasTextHolder
+        RotateTransform rotateTransform = new()
+        {
+            CenterX = CanvasTextHolderStaight.ActualWidth / 2,
+            CenterY = CanvasTextHolderStaight.ActualHeight / 2,
+            Angle = SliderRotation.Value,
+        };
+        CanvasTextHolderStaight.RenderTransform = rotateTransform;
+    }
+
+    private OutlinedTextBlock CreateStraighTextBlock(String text)
+    {
         var textBlock = new OutlinedTextBlock()
         {
 
-            Text = TBoxText.Text,
+            Text = text,
             Stroke = Brushes.White,
             StrokeThickness = 3,
             FontSize = SliderFontSize.Value,
@@ -42,11 +70,8 @@ public partial class MainWindow : Window
             Fill = Brushes.DeepPink,
             FontFamily = new FontFamily("Arial"),
         };
-        CanvasTextHolderStaight.Children.Add(textBlock);
-        CanvasTextHolderStaight.UpdateLayout();
 
-        Canvas.SetLeft(textBlock, x - textBlock.ActualWidth / 2);
-        Canvas.SetTop(textBlock, y - textBlock.ActualHeight / 2);
+        return textBlock;
     }
 
     private void InitCanvasTextHolderCurved()
@@ -58,7 +83,7 @@ public partial class MainWindow : Window
         var topMostPoint = new Point(parentCenter.X, parentCenter.Y - parentRadius);
 
         // For the circle that gonna render text on
-        var padding = Math.PI * 1 / (n);
+        var padding = Math.PI / (n);
         var startAngle = Math.PI - padding;
         var endAngle = 0 + padding;
         var totalAngle = Math.Abs(startAngle - endAngle);
