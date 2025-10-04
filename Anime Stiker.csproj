@@ -10,8 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Resource Include="Pictures\*" />
-	<Resource Include="Pictures\*\*" />
+	  <Resource Include="Pictures\Characters\emutest.png"/>
+	  <Resource Include="Pictures\Characters\*\*" />
+	  <Resource Include="Pictures\Icons\*" />
   </ItemGroup>
 
 </Project>
