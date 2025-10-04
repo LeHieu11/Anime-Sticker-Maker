@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using System.Windows;
 
-namespace Anime_Stiker.Utilty;
+namespace Anime_Stiker.Utility;
 
 public static class GeometryHelper
 {
