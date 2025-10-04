@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="Anime Sticker Creator" 
-        Height="240" Width="570"   
+        Height="250" Width="520"   
         Loaded="Window_Loaded">
-    
-    <Grid Margin="10">
+
+    <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="6*"/>
@@ -26,12 +26,12 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            
-            
+
+
             <Canvas x:Name="CanvasSticker"
                     Background="Gray">
                 <Image x:Name="ImageCharacter"
-                       Source="/Pictures/emutest.png"
+                       Source="/Pictures/Characters/emutest.png"
                        Stretch="Uniform"
                        Width="{Binding ActualWidth, 
                             ElementName=CanvasSticker}"
@@ -51,7 +51,7 @@
                         Visibility="Hidden"/>
 
             </Canvas>
-            
+
             <Slider x:Name="SliderX"
                     Grid.Row="1"
                     Minimum="0"
@@ -62,12 +62,26 @@
                     Orientation="Vertical"
                     Minimum="0"
                     Maximum="100"
-                    Value="90"/>
+                    Value="80"/>
+            <Canvas x:Name="CanvasBtnHolder"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Margin="0,0,5,5">
+                <Button x:Name="BtnChooseChar"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                    <Image Source="/Pictures/Icons/user-avatar.png"
+                           Width="{Binding ActualWidth, 
+                                ElementName=CanvasBtnHolder}"
+                            Height="{Binding ActualHeight, 
+                                ElementName=CanvasBtnHolder}"/>
+                </Button>
+            </Canvas>
+            
         </Grid>
 
         <StackPanel Orientation="Vertical"
-                    Grid.Column="1"
-                    Margin="5">
+                    Grid.Column="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
@@ -80,9 +94,9 @@
                         VerticalAlignment="Center"
                         Minimum="-90"
                         Maximum="90"
-                        Value="0"/>
+                        Value="-10"/>
             </Grid>
-            
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
@@ -92,7 +106,10 @@
                 <Label Content="Space: "/>
                 <Slider x:Name="SliderSpace"
                         Grid.Column="1"
-                        VerticalAlignment="Center"/>
+                        VerticalAlignment="Center"
+                        Minimum="0"
+                        Maximum="100"
+                        Value="30"/>
             </Grid>
 
             <Grid>
@@ -105,7 +122,7 @@
                 <Slider x:Name="SliderFontSize"
                         Grid.Column="1"
                         VerticalAlignment="Center"
-                        Minimum="10"
+                        Minimum="15"
                         Maximum="100"
                         Value="25"/>
             </Grid>
@@ -113,7 +130,47 @@
             <Grid Margin="0,5,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="6*"/>
+                </Grid.ColumnDefinitions>
+
+                <CheckBox x:Name="ChkCurve"
+                          Content="Curve"
+                          VerticalAlignment="Center"
+                          Margin="5,0,0,0"/>
+                <Label Content="Padding: "
+                       Grid.Column="1"/>
+                <Slider x:Name="SliderPadding"
+                        VerticalAlignment="Center"
+                        Minimum="0.2"
+                        Maximum="1"
+                        Value="0.2"
+                        IsDirectionReversed="True"
+                        Grid.Column="2"/>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="8*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Curve&#x0a;level: "
+                       Grid.Column="0"/>
+                <Slider x:Name="SliderCurveIntensity"
+                        VerticalAlignment="Center"
+                        Minimum="0.2"
+                        Maximum="1"
+                        Value="0.2"
+                        IsDirectionReversed="True"
+                        Grid.Column="1"/>
+            </Grid>
+
+            <Grid Margin="0,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -126,29 +183,20 @@
                          AcceptsReturn="True"
                          TextWrapping="Wrap"
                          VerticalScrollBarVisibility="Auto"
-                         Height="50"
-                         Text="DMM!"/>
+                         Text="wwww"/>
+
+                <StackPanel Orientation="Vertical"
+                            Grid.Column="3"
+                            Margin="10,0,0,0">
+                    <Button x:Name="BtnCopy"
+                            Content="Copy"
+                            Margin="0,0,0,10"/>
+                    <Button x:Name="BtnSave"
+                            Content="Save"/>
+                </StackPanel>
+
             </Grid>
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-
-                <Button Grid.Column="0"
-                        Margin="5,10,10,10"
-                        Content="Characters"/>
-                <Button Grid.Column="1"
-                        Margin="10"
-                        Content="Copy"/>
-                <Button Grid.Column="2"
-                        Margin="10,10,0,10"
-                        Content="Save"/>
-            </Grid>
-
         </StackPanel>
-        
+
     </Grid>
 </Window>

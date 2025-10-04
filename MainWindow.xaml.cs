@@ -37,7 +37,7 @@ public partial class MainWindow : Window
             var text = textList[i];
 
             // Create and add textBlock into CanvasTextHolder
-            var textBlock = CreateStraighTextBlock(text);
+            var textBlock = CreateTextBlock(text);
             CanvasTextHolderStaight.Children.Add(textBlock);
             CanvasTextHolderStaight.UpdateLayout();
 
@@ -57,7 +57,7 @@ public partial class MainWindow : Window
         CanvasTextHolderStaight.RenderTransform = rotateTransform;
     }
 
-    private OutlinedTextBlock CreateStraighTextBlock(String text)
+    private OutlinedTextBlock CreateTextBlock(String text)
     {
         var textBlock = new OutlinedTextBlock()
         {
@@ -74,6 +74,11 @@ public partial class MainWindow : Window
         return textBlock;
     }
 
+    private double CalculatePartTaken(int n, double curveIntens)
+    {
+        return 2 + curveIntens;
+    }
+
     private void InitCanvasTextHolderCurved()
     {
         var text = TBoxText.Text;
@@ -83,7 +88,15 @@ public partial class MainWindow : Window
         var topMostPoint = new Point(parentCenter.X, parentCenter.Y - parentRadius);
 
         // For the circle that gonna render text on
-        var padding = Math.PI / (n);
+        var offset = SliderCurveIntensity.Value;
+        var renderCircleCenterPoint = new Point()
+        {
+            X = parentCenter.X,
+            Y = parentCenter.Y + parentCenter.Y * offset,
+        };
+        var renderCircleRadius =  Math.Abs(renderCircleCenterPoint.Y - topMostPoint.Y);
+        var partTaken = CalculatePartTaken(n, offset);
+        var padding = Math.PI / partTaken;
         var startAngle = Math.PI - padding;
         var endAngle = 0 + padding;
         var totalAngle = Math.Abs(startAngle - endAngle);
@@ -91,42 +104,45 @@ public partial class MainWindow : Window
 
         for (int i = 0; i < n; i++)
         {
+            var ch = text[i];
+
             // Create a canvas for each character
             var charCanvas = new Canvas();
-            var textBlock = new OutlinedTextBlock()
-            {
-                Text = text[i].ToString(),
-                Stroke = Brushes.White,
-                StrokeThickness = 3,
-                FontSize = SliderFontSize.Value,
-                //FontSize = 30,
-                FontWeight = FontWeights.UltraBold,
-                Fill = Brushes.DeepPink,
-                FontFamily = new FontFamily("Arial"),
-            };
+            var textBlock = CreateTextBlock(ch.ToString());
             charCanvas.Children.Add(textBlock);
             CanvasTextHolderCurved.Children.Add(charCanvas);
-            charCanvas.UpdateLayout();
+            CanvasTextHolderCurved.UpdateLayout();
 
             // Calculate character position on circle
             double angle = startAngle - (i * angleStep);
-            double x = parentCenter.X + parentRadius * Math.Cos(angle) - textBlock.ActualWidth / 2;
-            double y = parentCenter.Y - parentRadius * Math.Sin(angle) - textBlock.ActualHeight / 2;
-            var characterPoint = new Point(x, y);
+            var characterPoint = new Point()
+            {
+                X = renderCircleCenterPoint.X + renderCircleRadius * Math.Cos(angle),
+                Y = renderCircleCenterPoint.Y - renderCircleRadius * Math.Sin(angle) 
+            };
 
             // Set character canvas position
-            Canvas.SetLeft(charCanvas, x);
-            Canvas.SetTop(charCanvas, y);
+            Canvas.SetLeft(charCanvas, characterPoint.X - textBlock.ActualWidth / 2);
+            Canvas.SetTop(charCanvas, characterPoint.Y - textBlock.ActualHeight / 2);
 
             // Rotate character canvas into parent canvas center
-            RotateTransform rotateTransform = new()
+            RotateTransform rotateTransformCharacterCanvas = new()
             {
                 CenterX = textBlock.ActualWidth / 2,
                 CenterY = textBlock.ActualHeight / 2,
-                Angle = GeometryHelper.CalculateAngle(characterPoint, parentCenter, topMostPoint)
+                Angle = GeometryHelper.CalculateAngle(characterPoint, renderCircleCenterPoint, topMostPoint)
             };
-            charCanvas.RenderTransform = rotateTransform;
+            charCanvas.RenderTransform = rotateTransformCharacterCanvas;
         }
+
+        // Rotate CanvasTextHolder
+        RotateTransform rotateTransformCanvasTextHolder = new()
+        {
+            CenterX = CanvasTextHolderCurved.ActualWidth / 2,
+            CenterY = CanvasTextHolderCurved.ActualHeight / 2,
+            Angle = SliderRotation.Value,
+        };
+        CanvasTextHolderStaight.RenderTransform = rotateTransformCanvasTextHolder;
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
