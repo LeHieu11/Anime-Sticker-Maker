@@ -10,7 +10,8 @@
         Height="250" Width="520"   
         Loaded="Window_Loaded">
 
-    <Grid Margin="5">
+    <Grid Margin="5"
+          Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="6*"/>
@@ -26,10 +27,9 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-
-
             <Canvas x:Name="CanvasSticker"
-                    Background="Gray">
+                    Background="Transparent"
+                    ClipToBounds="True">
                 <Image x:Name="ImageCharacter"
                        Source="/Pictures/Characters/emutest.png"
                        Stretch="Uniform"
@@ -42,13 +42,13 @@
                             ElementName=CanvasSticker}"
                         Height="{Binding ActualHeight, 
                             ElementName=CanvasSticker}"
-                        Visibility="Visible"/>
+                        Visibility="Hidden"/>
                 <Canvas x:Name="CanvasTextHolderStaight"
                         Width="{Binding ActualWidth, 
                             ElementName=CanvasSticker}"
                         Height="{Binding ActualHeight, 
                             ElementName=CanvasSticker}"
-                        Visibility="Hidden"/>
+                        Visibility="Visible"/>
 
             </Canvas>
 
@@ -56,13 +56,15 @@
                     Grid.Row="1"
                     Minimum="0"
                     Maximum="100"
-                    Value="50"/>
+                    Value="50"
+                    ValueChanged="SliderX_ValueChanged"/>
             <Slider x:Name="SliderY"
                     Grid.Column="1"
                     Orientation="Vertical"
                     Minimum="0"
                     Maximum="100"
-                    Value="80"/>
+                    Value="80"
+                    ValueChanged="SliderY_ValueChanged"/>
             <Canvas x:Name="CanvasBtnHolder"
                     Grid.Column="1"
                     Grid.Row="1"
@@ -94,7 +96,8 @@
                         VerticalAlignment="Center"
                         Minimum="-90"
                         Maximum="90"
-                        Value="-10"/>
+                        Value="0"
+                        ValueChanged="SliderRotation_ValueChanged"/>
             </Grid>
 
             <Grid>
@@ -109,7 +112,8 @@
                         VerticalAlignment="Center"
                         Minimum="0"
                         Maximum="100"
-                        Value="30"/>
+                        Value="30"
+                        ValueChanged="UpdateCanvasTextHolders"/>
             </Grid>
 
             <Grid>
@@ -124,46 +128,53 @@
                         VerticalAlignment="Center"
                         Minimum="15"
                         Maximum="100"
-                        Value="25"/>
+                        Value="25"
+                        ValueChanged="UpdateCanvasTextHolders"/>
             </Grid>
 
-            <Grid Margin="0,5,0,0">
+            <!--Curve control-->
+            <Grid Margin="0,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="6*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
 
                 <CheckBox x:Name="ChkCurve"
                           Content="Curve"
                           VerticalAlignment="Center"
-                          Margin="5,0,0,0"/>
-                <Label Content="Padding: "
-                       Grid.Column="1"/>
-                <Slider x:Name="SliderPadding"
+                          Margin="5,0,0,0"
+                          Checked="ChkCurve_Checked"
+                          Unchecked="ChkCurve_Unchecked"/>
+                <Label Content="Letter&#x0a;space: "
+                       Grid.Column="1"
+                       FontSize="10"/>
+                <Slider x:Name="SliderLetterSpace"
                         VerticalAlignment="Center"
-                        Minimum="0.2"
-                        Maximum="1"
-                        Value="0.2"
-                        IsDirectionReversed="True"
-                        Grid.Column="2"/>
-            </Grid>
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="8*"/>
-                </Grid.ColumnDefinitions>
+                        Minimum="-30"
+                        Maximum="100"
+                        Value="20"
+                        Grid.Column="2"
+                        IsEnabled="False"
+                        ValueChanged="UpdateCanvasTextHolders"/>
 
                 <Label Content="Curve&#x0a;level: "
-                       Grid.Column="0"/>
-                <Slider x:Name="SliderCurveIntensity"
+                       Grid.Column="1"
+                       FontSize="10"
+                       Grid.Row="1"/>
+                <Slider x:Name="SliderCurveness"
                         VerticalAlignment="Center"
-                        Minimum="0.2"
-                        Maximum="1"
-                        Value="0.2"
-                        IsDirectionReversed="True"
-                        Grid.Column="1"/>
+                        Minimum="0"
+                        Maximum="200"
+                        Value="30"
+                        IsEnabled="False"
+                        Grid.Column="2"
+                        Grid.Row="1"
+                        ValueChanged="UpdateCanvasTextHolders"/>
             </Grid>
 
             <Grid Margin="0,0,0,0">
@@ -176,21 +187,23 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Label Content="Text&#x0a;(multiline)" 
+                <Label Content="Text&#x0a;multiline" 
                        Grid.RowSpan="2"/>
                 <TextBox x:Name="TBoxText" 
                          Grid.Column="1"
                          AcceptsReturn="True"
                          TextWrapping="Wrap"
                          VerticalScrollBarVisibility="Auto"
-                         Text="wwww"/>
+                         Text="Something"
+                         TextChanged="TBoxText_TextChanged"/>
 
                 <StackPanel Orientation="Vertical"
                             Grid.Column="3"
                             Margin="10,0,0,0">
                     <Button x:Name="BtnCopy"
                             Content="Copy"
-                            Margin="0,0,0,10"/>
+                            Margin="0,0,0,10"
+                            Click="BtnCopy_Click"/>
                     <Button x:Name="BtnSave"
                             Content="Save"/>
                 </StackPanel>
