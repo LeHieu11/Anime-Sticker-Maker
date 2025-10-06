@@ -5,7 +5,7 @@ using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace Anime_Stiker;
+namespace Anime_Stiker.CustomControl;
 
 [ContentProperty("Text")]
 public class OutlinedTextBlock : FrameworkElement

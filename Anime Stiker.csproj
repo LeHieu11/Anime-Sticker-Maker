@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <Resource Include="Pictures\Characters\emutest.png"/>
+	  <Resource Include="Pictures\Characters\emutest.png" />
 	  <Resource Include="Pictures\Characters\*\*" />
 	  <Resource Include="Pictures\Icons\*" />
   </ItemGroup>

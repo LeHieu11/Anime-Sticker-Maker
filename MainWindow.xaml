@@ -157,7 +157,7 @@
                         VerticalAlignment="Center"
                         Minimum="-30"
                         Maximum="100"
-                        Value="20"
+                        Value="0"
                         Grid.Column="2"
                         IsEnabled="False"
                         ValueChanged="UpdateCanvasTextHolders"/>

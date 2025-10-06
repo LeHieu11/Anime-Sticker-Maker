@@ -1,4 +1,5 @@
-﻿using Anime_Stiker.Utility;
+﻿using Anime_Stiker.CustomControl;
+using Anime_Stiker.Utility;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -276,39 +277,33 @@ public partial class MainWindow : Window
 
     private void BtnCopy_Click(object sender, RoutedEventArgs e)
     {
-        // --- 1. Render the Canvas to RenderTargetBitmap (as before) ---
-        if (CanvasSticker.ActualWidth <= 0 || CanvasSticker.ActualHeight <= 0) return;
-
         double dpi = 96.0;
         RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
             (int)Math.Round(CanvasSticker.ActualWidth * (dpi / 96.0)),
             (int)Math.Round(CanvasSticker.ActualHeight * (dpi / 96.0)),
             dpi,
             dpi,
-            PixelFormats.Pbgra32); // Pbgra32 is key for alpha/transparency
-
+            PixelFormats.Pbgra32);
         renderBitmap.Render(CanvasSticker);
 
-        // --- 2. Create a DataObject and add multiple formats ---
-
-        // a) Create the PNG MemoryStream
+        // Create the PNG MemoryStream
         MemoryStream pngStream = new();
         PngBitmapEncoder encoder = new();
         encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
         encoder.Save(pngStream);
 
-        // b) Create the DataObject
-        DataObject data = new DataObject();
+        // Create the DataObject
+        DataObject data = new();
 
         // The RenderTargetBitmap object is what Clipboard.SetImage() would use (standard formats)
         data.SetData(typeof(BitmapSource), renderBitmap);
 
-        // Crucial step: Add the PNG stream with a custom format name "PNG"
+        // Add the PNG stream with a custom format name "PNG"
         // Applications like MS Office, Paint.NET, etc., will look for and use this.
         data.SetData("PNG", pngStream);
 
-        // c) Set the DataObject to the Clipboard
+        // Set the DataObject to the Clipboard
         Clipboard.Clear();
-        Clipboard.SetDataObject(data, true); // The 'true' parameter keeps the data in memory after the app closes
+        Clipboard.SetDataObject(data, true);
     }
 }
