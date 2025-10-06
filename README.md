@@ -1,1 +1,1 @@
-# Anime Stiker
+# Anime Sticker
