@@ -7,23 +7,24 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="Anime Sticker Creator" 
-        Height="250" Width="520"   
+        Height="250" Width="500"
+        FontSize="10"
         Loaded="Window_Loaded">
 
     <Grid Margin="5"
           Background="Transparent">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="4*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
@@ -68,7 +69,7 @@
             <Canvas x:Name="CanvasBtnHolder"
                     Grid.Column="1"
                     Grid.Row="1"
-                    Margin="0,0,5,5">
+                    Margin="2">
                 <Button x:Name="BtnChooseChar"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
@@ -152,7 +153,7 @@
                           Unchecked="ChkCurve_Unchecked"/>
                 <Label Content="Letter&#x0a;space: "
                        Grid.Column="1"
-                       FontSize="10"/>
+                       VerticalAlignment="Center"/>
                 <Slider x:Name="SliderLetterSpace"
                         VerticalAlignment="Center"
                         Minimum="-30"
@@ -164,7 +165,6 @@
 
                 <Label Content="Curve&#x0a;level: "
                        Grid.Column="1"
-                       FontSize="10"
                        Grid.Row="1"/>
                 <Slider x:Name="SliderCurveness"
                         VerticalAlignment="Center"
