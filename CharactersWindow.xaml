@@ -1,0 +1,35 @@
+﻿<Window x:Class="Anime_Stiker.CharactersWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Anime_Stiker"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Characters"
+        ResizeMode="NoResize"
+        Height="300" Width="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox x:Name="ListBoxOfCharacters"
+                 Grid.Column="0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Image Width ="100" Height="100"
+                           Source="{Binding ImageSource}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            
+            
+        </ListBox>
+        
+        <Viewbox VerticalAlignment="Top"
+                 Grid.Column="1">
+            <xctk:ColorCanvas/>
+        </Viewbox>
+    </Grid>
+</Window>

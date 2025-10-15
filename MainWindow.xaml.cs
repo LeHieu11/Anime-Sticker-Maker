@@ -306,4 +306,11 @@ public partial class MainWindow : Window
         Clipboard.Clear();
         Clipboard.SetDataObject(data, true);
     }
+
+    private void BtnChooseChar_Click(object sender, RoutedEventArgs e)
+    {
+        var characterWindow = new CharactersWindow();
+
+        characterWindow.ShowDialog();
+    }
 }
