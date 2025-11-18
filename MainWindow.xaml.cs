@@ -149,11 +149,9 @@ public partial class MainWindow : Window
             {
                 var ch = text[j];
 
-                // Create a canvas for each character
-                var charCanvas = new Canvas();
+                // Create a textblock for each character
                 var textBlock = CreateTextBlock(ch.ToString());
-                charCanvas.Children.Add(textBlock);
-                CanvasTextHolderCurved.Children.Add(charCanvas);
+                CanvasTextHolderCurved.Children.Add(textBlock);
 
                 // Update width and height of textblock
                 textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
@@ -168,8 +166,8 @@ public partial class MainWindow : Window
                 };
 
                 // Set character canvas position
-                Canvas.SetLeft(charCanvas, characterPoint.X - textBlock.ActualWidth / 2);
-                Canvas.SetTop(charCanvas, characterPoint.Y - textBlock.ActualHeight / 2);
+                Canvas.SetLeft(textBlock, characterPoint.X - textBlock.ActualWidth / 2);
+                Canvas.SetTop(textBlock, characterPoint.Y - textBlock.ActualHeight / 2);
 
                 // Rotate character point to center
                 RotateTransform rotateTransformCharacterCanvas = new()
@@ -178,7 +176,7 @@ public partial class MainWindow : Window
                     CenterY = textBlock.ActualHeight / 2,
                     Angle = GeometryHelper.CalculateAngle(characterPoint, renderCircleCenterPoint, topMostPoint)
                 };
-                charCanvas.RenderTransform = rotateTransformCharacterCanvas;
+                textBlock.RenderTransform = rotateTransformCharacterCanvas;
             }
         }
 
